@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>MuseumArt – Sanat Eseri Tanıma</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <header>
+      <h1>MuseumArt</h1>
+      <p>Yapay Zekâ Destekli Sanat Eseri Tanıma Sistemi</p>
+    </header>
+
+    <main>
+      <section class="upload-section">
+        <h2>Bir görsel yükleyin</h2>
+        <form method="POST" enctype="multipart/form-data">
+          <input type="file" name="image" required />
+          <button type="submit">🖼️ Seçilen Görseli Tanı</button>
+        </form>
+
+        <form action="/camera" method="GET" style="margin-top: 20px;">
+          <button type="submit">📷 Kameradan Tanı</button>
+        </form>
+
+        {% if request.path == '/camera' %}
+          <h2>Canlı Kamera Görüntüsü</h2>
+          <img src="{{ url_for('video_feed') }}" width="640" height="480" style="border-radius: 10px; margin-top: 10px;" />
+        {% endif %}
+      </section>
+
+      {% if result %}
+      <section class="result-card">
+        {% if result.error %}
+          <p class="error" style="color: red; font-weight: bold;">{{ result.error }}</p>
+        {% else %}
+          <h3>{{ result.title }}</h3>
+          <p><strong>Sanatçı:</strong> {{ result.artist }}</p>
+          <p><strong>Açıklama:</strong> <span id="description-text">{{ result.description }}</span></p>
+          
+    
+          {% if result.jpg_url %}
+            <p><strong>Görsel bağlantısı:</strong>
+              <a href="{{ result.jpg_url }}" target="_blank">{{ result.jpg_url }}</a>
+            </p>
+          {% endif %}
+    
+          <button onclick="speakText()" class="speak-button">🔊 Oku</button>
+    
+          <script>
+            function speakText() {
+              const text = document.getElementById('description-text').innerText;
+              if (speechSynthesis.speaking) {
+                speechSynthesis.cancel();
+              }
+              const utterance = new SpeechSynthesisUtterance(text);
+              utterance.lang = 'tr-TR';
+              utterance.rate = 0.95;
+              speechSynthesis.speak(utterance);
+            }
+          </script>
+        {% endif %}
+      </section>
+    {% endif %}
+    
+
+      {% if suggestions %}
+        <section class="suggestions">
+          <h4>Benzer Eserler</h4>
+          <div class="card-container">
+            {% for row in suggestions %}
+              <a href="{{ url_for('artwork_detail', title=row.title) }}" class="card">
+                <div class="card-info">
+                  <h5>{{ row.title }}</h5>
+                  <p>{{ row.artist }}</p>
+                  {% if row.jpg_url %}
+                    <p><strong>Görsel bağlantısı:</strong> 
+                      <a href="{{ row.jpg_url }}" target="_blank">{{ row.jpg_url }}</a>
+                    </p>
+                  {% endif %}
+                </div>
+              </a>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+    </main>
+
+    <footer>
+      <p>&copy; 2025 MuseumArt. Tüm hakları saklıdır.</p>
+    </footer>
+  </body>
+</html>
