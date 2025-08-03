@@ -1,6 +1,7 @@
 # MuseumArt: Sanat Eseri Tanıma Web Uygulaması
 
-![Uygulama Ekran Görüntüsü - Yer Tutucu](https://via.placeholder.com/600x300?text=Uygulama+Ekran+Görüntüsü)
+<img width="500" height="300" alt="Ekran Resmi 2025-08-03 11 44 01" src="https://github.com/user-attachments/assets/05a2fccd-fa8d-42c7-b157-3c8a4cfc7371" />
+
 
 
 MuseumArt, görsellerdeki sanat eserlerini tanımlamak ve bunlar hakkında detaylı bilgi sunmak için tasarlanmış bir Flask web uygulamasıdır. Kullanıcılar, bir görsel yükleyerek veya bilgisayarlarının kamerasını kullanarak bir sanat eserini tarayabilirler. Uygulama, tanımlanan sanat eserinin sanatçısı, başlığı, açıklaması gibi bilgileri bir CSV veritabanından getirir ve aynı sanatçıya ait benzer eserleri de önerir.
@@ -35,12 +36,7 @@ Projeyi kendi bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki ad
     cd MuseumArt
     ```
 
-2.  **Gerekli Dosyaları Yerleştirin:**
-    * **Model Dosyası:** Eğittiğiniz YOLO model dosyasını (`best.pt`) `static/models/` klasörüne yerleştirin.
-    * **Veri Dosyası:** Sanat eserleri açıklamalarını içeren CSV dosyasını (`artwork_descriptions_first25.csv`) `static/data/` klasörüne yerleştirin.
-    * **(Opsiyonel) Görsel Dosyaları:** `static/uploads/` klasörünü oluşturun.
-
-3.  **Sanal Ortam Oluşturun (Önerilir):**
+2.  **Sanal Ortam Oluşturun (Önerilir):**
     ```bash
     python -m venv venv
     source venv/bin/activate  # Linux/macOS
@@ -49,15 +45,8 @@ Projeyi kendi bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki ad
     ```
 
 4.  **Bağımlılıkları Yükleyin:**
-    `requirements.txt` dosyanız aşağıdaki içeriğe sahip olmalıdır:
+    
     ```
-    Flask
-    ultralytics
-    pandas
-    opencv-python
-    gunicorn # Dağıtım için önerilir, yerel çalıştırma için gerekli değil.
-    ```
-    Ardından bağımlılıkları yükleyin:
     ```bash
     pip install -r requirements.txt
     ```
@@ -66,14 +55,4 @@ Projeyi kendi bilgisayarınızda kurmak ve çalıştırmak için aşağıdaki ad
     ```bash
     python app.py
     ```
-    Uygulama varsayılan olarak `http://127.0.0.1:5000/` adresinde çalışacaktır.
-
-## Dağıtım (Deployment)
-
-Bu proje, PythonAnywhere, Render, DigitalOcean (VPS) gibi platformlara dağıtılabilir. Ancak `ultralytics` ve `torch` kütüphanelerinin büyük boyutları nedeniyle, dağıtım ortamında yeterli disk alanı ve bellek (RAM) bulunduğundan emin olmalısınız. Ücretsiz katmanlar genellikle bu kütüphaneler için yeterli kaynak sağlamaz.
-
-* **Önerilen Dağıtım Ortamları (Büyük Modeller İçin):**
-    * **Ücretli PaaS Hizmetleri (Render, Heroku):** Daha yüksek kaynaklara sahip ücretli planlar.
-    * **VPS Sağlayıcıları (DigitalOcean, Linode):** Tam kontrol ve esneklik sunar, ancak sunucu yönetimi bilgisi gerektirir.
-
-## Proje Yapısı
+   
