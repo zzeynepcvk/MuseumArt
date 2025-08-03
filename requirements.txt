@@ -1,0 +1,5 @@
+Flask
+ultralytics
+pandas
+opencv-python
+gunicorn
