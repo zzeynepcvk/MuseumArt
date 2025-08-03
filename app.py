@@ -7,13 +7,13 @@ import uuid
 
 app = Flask(__name__)
 
-# 📁 Klasörleri tanımla
+
 MODEL_PATH = "static/models/best.pt"
 CSV_PATH = "static/data/artwork_descriptions_first25.csv"
 UPLOAD_FOLDER = "static/uploads"
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# 📦 Model ve CSV yükle
+
 model = YOLO(MODEL_PATH)
 csv_data = pd.read_csv(CSV_PATH)
 
@@ -73,7 +73,7 @@ def camera_capture():
     suggestions = []
 
     try:
-        # Kameradan görüntü yakala
+        
         cap = cv2.VideoCapture(0)
         ret, frame = cap.read()
         cap.release()
@@ -81,11 +81,11 @@ def camera_capture():
         if not ret:
             raise Exception("Kamera görüntüsü alınamadı.")
 
-        # Geçici olarak frame'i dosyaya kaydet (model input için)
+        
         tmp_filename = f"static/uploads/{uuid.uuid4().hex}.jpg"
         cv2.imwrite(tmp_filename, frame)
 
-        # Modelle tahmin yap
+        
         results = model(tmp_filename)
         
         if results[0].boxes.cls.numel() == 0:
@@ -95,7 +95,7 @@ def camera_capture():
         class_id = int(results[0].boxes.cls[0].item())
         class_name = results[0].names[class_id]
 
-        # CSV'den eşleşen kaydı bul
+        
         match = csv_data[csv_data["title"].str.lower().str.strip() == class_name.lower().strip()]
         if not match.empty:
             row = match.iloc[0]
